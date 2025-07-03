@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.0.1...v1.1.0) (2025-07-03)
+
+
+### Features
+
+* Add npm configuration for GitHub Packages and update CI workflow ([1d7e9ce](https://github.com/UptimeBeacon/sentinel-guard/commit/1d7e9cec445bc9647c19a138c439bfc12a578688))
+
 ## [1.0.1](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.0.0...v1.0.1) (2025-07-03)
 
 
