@@ -1,8 +1,8 @@
-# 📦 Installation & Package Manager Kompatibilität
+# Installation & Package Manager Compatibility
 
-SentinelGuard ist mit allen gängigen Package Managern kompatibel und kann sowohl in Node.js- als auch in Bun-Projekten verwendet werden.
+SentinelGuard is compatible with all common package managers and can be used in both Node.js and Bun projects.
 
-## 🚀 Installation
+## Installation
 
 ### npm
 ```bash
@@ -24,77 +24,77 @@ pnpm add sentinel-guard
 bun add sentinel-guard
 ```
 
-## 🛠️ Entwicklung mit verschiedenen Package Managern
+## Development with Different Package Managers
 
-### Mit npm
+### With npm
 ```bash
-# Dependencies installieren
+# Install dependencies
 npm install
 
-# Entwicklung starten
+# Start development
 npm run dev
 
-# Build erstellen
+# Create build
 npm run build
 
-# Tests ausführen
+# Run tests
 npm test
 ```
 
-### Mit yarn
+### With yarn
 ```bash
-# Dependencies installieren
+# Install dependencies
 yarn install
 
-# Entwicklung starten
+# Start development
 yarn dev
 
-# Build erstellen
+# Create build
 yarn build
 
-# Tests ausführen
+# Run tests
 yarn test
 ```
 
-### Mit pnpm
+### With pnpm
 ```bash
-# Dependencies installieren
+# Install dependencies
 pnpm install
 
-# Entwicklung starten
+# Start development
 pnpm dev
 
-# Build erstellen
+# Create build
 pnpm build
 
-# Tests ausführen
+# Run tests
 pnpm test
 ```
 
-### Mit bun
+### With bun
 ```bash
-# Dependencies installieren
+# Install dependencies
 bun install
 
-# Entwicklung starten (spezifisches Bun-Skript)
+# Start development (Bun specific script)
 bun run dev:bun
 
-# Build erstellen
+# Create build
 bun run build
 
-# Tests ausführen (spezifisches Bun-Skript)
+# Run tests (Bun specific script)
 bun run test:bun
 ```
 
-## 📋 Systemanforderungen
+## System Requirements
 
-- **Node.js**: Version 16.0.0 oder höher
-- **TypeScript**: Version 5.0.0 oder höher (als peer dependency)
-- **Bun**: Jede aktuelle Version (optional)
+-   **Node.js**: Version 16.0.0 or higher
+-   **TypeScript**: Version 5.0.0 or higher (as a peer dependency)
+-   **Bun**: Any current version (optional)
 
-## 🔧 Verwendung in verschiedenen Umgebungen
+## Usage in Different Environments
 
-### ES Modules (moderne Node.js Projekte)
+### ES Modules (Modern Node.js Projects)
 ```typescript
 import { SentinelGuard } from 'sentinel-guard';
 
@@ -104,12 +104,12 @@ const sentinel = new SentinelGuard({
 });
 ```
 
-### TypeScript Projekte
+### TypeScript Projects
 ```typescript
-import { 
-  SentinelGuard, 
+import {
+  SentinelGuard,
   type SentinelGuardConfig,
-  type Monitor 
+  type Monitor
 } from 'sentinel-guard';
 
 const config: SentinelGuardConfig = {
@@ -123,7 +123,7 @@ const sentinel = new SentinelGuard(config);
 
 ### Bun Runtime
 ```typescript
-// Funktioniert nativ mit Bun's TypeScript-Support
+// Works natively with Bun's TypeScript support
 import { SentinelGuard } from 'sentinel-guard';
 
 const sentinel = new SentinelGuard({
@@ -132,94 +132,94 @@ const sentinel = new SentinelGuard({
 });
 ```
 
-## 🏗️ Build-Kompatibilität
+## Build Compatibility
 
-Die Library wird als ES Module bereitgestellt und ist kompatibel mit:
+The library is provided as an ES Module and is compatible with:
 
-- **Webpack**: Automatische Tree-shaking Unterstützung
-- **Rollup**: Native ES Module Unterstützung
-- **Vite**: Optimiert für moderne Bundler
-- **esbuild**: Schnelles Bundling mit TypeScript
-- **Parcel**: Zero-config Bundling
-- **Bun**: Native TypeScript und ES Module Unterstützung
+-   **Webpack**: Automatic tree-shaking support
+-   **Rollup**: Native ES Module support
+-   **Vite**: Optimized for modern bundlers
+-   **esbuild**: Fast bundling with TypeScript
+-   **Parcel**: Zero-config bundling
+-   **Bun**: Native TypeScript and ES Module support
 
-## 🔍 Package Manager Features
+## Package Manager Features
 
 ### npm
-- Standard Package Manager
-- Vollständige npm registry Unterstützung
-- Automatische Dependency Resolution
+-   Standard Package Manager
+-   Full npm registry support
+-   Automatic Dependency Resolution
 
 ### yarn
-- Workspace-Unterstützung
-- Yarn Plug'n'Play kompatibel
-- Berry (Yarn 2+) kompatibel
+-   Workspace support
+-   Yarn Plug'n'Play compatible
+-   Berry (Yarn 2+) compatible
 
 ### pnpm
-- Effiziente Disk-Nutzung durch Content-Addressable Storage
-- Workspace-Unterstützung
-- Schnellere Installation
+-   Efficient disk usage through Content-Addressable Storage
+-   Workspace support
+-   Faster installation
 
 ### bun
-- Native TypeScript-Unterstützung
-- Schnellste Installation und Ausführung
-- Integrierte Test-Runner
+-   Native TypeScript support
+-   Fastest installation and execution
+-   Integrated test runner
 
-## 🚨 Häufige Probleme & Lösungen
+## Common Problems & Solutions
 
 ### TypeScript Errors
 ```bash
-# Stelle sicher, dass TypeScript installiert ist
+# Ensure TypeScript is installed
 npm install -D typescript @types/node
 
-# Oder als peer dependency
+# Or as a peer dependency
 npm install typescript
 ```
 
 ### Import Errors
 ```bash
-# Stelle sicher, dass deine package.json "type": "module" enthält
-# Oder verwende .mts Dateierweiterungen für ES Modules
+# Ensure your package.json contains "type": "module"
+# Or use .mts file extensions for ES Modules
 ```
 
-### Bun spezifische Issues
+### Bun Specific Issues
 ```bash
-# Installiere Bun types falls benötigt
+# Install Bun types if needed
 bun add -d @types/bun
 ```
 
-## 🔄 Migration zwischen Package Managern
+## Migration between Package Managers
 
-### Von npm zu yarn
+### From npm to yarn
 ```bash
 rm package-lock.json
 yarn install
 ```
 
-### Von npm zu pnpm
+### From npm to pnpm
 ```bash
 rm package-lock.json
 pnpm install
 ```
 
-### Von npm zu bun
+### From npm to bun
 ```bash
 rm package-lock.json
 bun install
 ```
 
-## 📊 Performance Vergleich
+## Performance Comparison
 
 | Package Manager | Install Speed | Disk Usage | Runtime Performance |
-|----------------|---------------|------------|-------------------|
-| npm            | ⭐⭐⭐         | ⭐⭐⭐       | ⭐⭐⭐⭐           |
-| yarn           | ⭐⭐⭐⭐        | ⭐⭐⭐       | ⭐⭐⭐⭐           |
-| pnpm           | ⭐⭐⭐⭐⭐       | ⭐⭐⭐⭐⭐    | ⭐⭐⭐⭐           |
-| bun            | ⭐⭐⭐⭐⭐       | ⭐⭐⭐⭐     | ⭐⭐⭐⭐⭐          |
+|-----------------|---------------|------------|---------------------|
+| npm             | Good          | Good       | Very Good           |
+| yarn            | Very Good     | Good       | Very Good           |
+| pnpm            | Excellent     | Excellent  | Very Good           |
+| bun             | Excellent     | Very Good  | Excellent           |
 
-## 🎯 Empfehlungen
+## Recommendations
 
-- **Neue Projekte**: Bun für maximale Performance
-- **Enterprise**: pnpm für Workspace-Management
-- **Bestehende Projekte**: Behalten Sie Ihren aktuellen Package Manager
-- **CI/CD**: pnpm oder yarn für konsistente Builds
+-   **New Projects**: Bun for maximum performance
+-   **Enterprise**: pnpm for Workspace management
+-   **Existing Projects**: Retain your current Package Manager
+-   **CI/CD**: pnpm or yarn for consistent builds

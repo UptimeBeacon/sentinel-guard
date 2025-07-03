@@ -1,82 +1,82 @@
 # Test Directory
 
-Dieses Verzeichnis enthält alle Tests für @uptimebeacon/sentinel-guard.
+This directory contains all tests for @uptimebeacon/sentinel-guard.
 
-## Test-Dateien
+## Test Files
 
-### **Unit Tests**
-- `unit.test.ts` - Grundlegende Unit Tests für SentinelGuard-Klasse
-- `error-handling.test.ts` - Tests für Fehlerbehandlung und Error-Klassen
+### Unit Tests
+-   `unit.test.ts` - Basic unit tests for SentinelGuard class
+-   `error-handling.test.ts` - Tests for error handling and error classes
 
-### **Integration Tests**
-- `test-compatibility.js` - Package Manager Kompatibilitätstests
-- `test-backend-integration.ts` - Backend-Integration Tests
+### Integration Tests
+-   `test-compatibility.js` - Package Manager compatibility tests
+-   `test-backend-integration.ts` - Backend integration tests
 
-## Tests ausführen
+## Running Tests
 
-### **Node.js Tests**
+### Node.js Tests
 ```bash
 npm test
-# oder direkt:
+# or directly:
 node --test test/*.test.ts
 ```
 
-### **Bun Tests**
+### Bun Tests
 ```bash
 npm run test:bun
-# oder direkt:
+# or directly:
 bun test test/
 ```
 
-### **Kompatibilitätstests**
+### Compatibility Tests
 ```bash
 npm run test:compatibility
-# oder direkt:
+# or directly:
 node test/test-compatibility.js
 ```
 
-### **Backend-Integration**
+### Backend Integration
 ```bash
-# Stellen Sie sicher, dass Ihr Backend läuft
+# Ensure your backend is running
 node test/test-backend-integration.ts
 ```
 
-## Test-Struktur
+## Test Structure
 
 ```
 test/
-├── README.md                    # Diese Datei
+├── README.md                    # This file
 ├── unit.test.ts                 # Unit Tests
 ├── error-handling.test.ts       # Error Handling Tests
-├── test-compatibility.js        # Kompatibilitätstests
+├── test-compatibility.js        # Compatibility Tests
 └── test-backend-integration.ts  # Backend Integration
 ```
 
-## Test-Kategorien
+## Test Categories
 
-### **🧪 Unit Tests**
-- Konfigurationsvalidierung
-- Heartbeat-Manager Initialisierung
-- Standard-Heartbeat-Daten
-- Grundlegende Funktionalität
+### Unit Tests
+-   Configuration validation
+-   Heartbeat manager initialization
+-   Standard heartbeat data
+-   Basic functionality
 
-### **⚠️ Error Handling**
-- Netzwerkfehler
-- Authentifizierungsfehler
-- Rate-Limit-Fehler
-- Retry-Konfiguration
+### Error Handling
+-   Network errors
+-   Authentication errors
+-   Rate limit errors
+-   Retry configuration
 
-### **🔗 Integration Tests**
-- Package Manager Kompatibilität
-- Backend-API Integration
-- Real-world Szenarien
+### Integration Tests
+-   Package Manager compatibility
+-   Backend API integration
+-   Real-world scenarios
 
 ## CI/CD Integration
 
-Diese Tests sind für die Ausführung in CI/CD-Pipelines optimiert:
+These tests are optimized for execution in CI/CD pipelines:
 
 ```yaml
-# GitHub Actions Beispiel
+# GitHub Actions Example
 - name: Run Tests
   run: |
     npm run build
@@ -84,17 +84,17 @@ Diese Tests sind für die Ausführung in CI/CD-Pipelines optimiert:
     npm run test:compatibility
 ```
 
-## Lokale Entwicklung
+## Local Development
 
-Für die lokale Entwicklung:
+For local development:
 
 ```bash
-# Alles testen
+# Test all
 npm run check
 
-# Nur Tests
+# Only tests
 npm test
 
-# Watch-Mode (falls implementiert)
+# Watch mode (if implemented)
 npm run test:watch
 ```
