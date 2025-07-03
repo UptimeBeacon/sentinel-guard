@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Test-Skript für Package Manager Kompatibilität
-import { SentinelGuard } from "./dist/index.js";
+import { SentinelGuard } from "../dist/index.js";
 
 console.log(
 	"🧪 Teste @uptimebeacon/sentinel-guard Library Kompatibilität...\n",
