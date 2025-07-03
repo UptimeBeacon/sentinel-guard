@@ -54,18 +54,17 @@
 	],
 	"author": {
 		"name": "UptimeBeacon",
-		"email": "support@uptimebeacon.com",
-		"url": "https://uptimebeacon.com"
+		"email": "business@redeagle-dave.com"
 	},
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/uptimebeacon/sentinel-guard.git"
+		"url": "git+https://github.com/UptimeBeacon/sentinel-guard.git"
 	},
 	"bugs": {
-		"url": "https://github.com/uptimebeacon/sentinel-guard/issues"
+		"url": "https://github.com/UptimeBeacon/sentinel-guard/issues"
 	},
-	"homepage": "https://github.com/uptimebeacon/sentinel-guard#readme",
+	"homepage": "https://github.com/UptimeBeacon/sentinel-guard#readme",
 	"publishConfig": {
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
