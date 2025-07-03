@@ -1,0 +1,49 @@
+# Development files
+src/
+examples/
+scripts/
+test-*.js
+test-*.ts
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+
+# Test files (should not be published)
+test/
+
+# Configuration files
+tsconfig*.json
+.prettierrc*
+.eslintrc*
+biome.json
+.gitignore
+.github/
+
+# Documentation (keep only essential ones)
+*.md
+
+# Build artifacts
+node_modules/
+*.tgz
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files
+.env*
+
+# Temporary files
+tmp/
+temp/
+coverage/
+
+# Development scripts
+index.ts
+bun.lock

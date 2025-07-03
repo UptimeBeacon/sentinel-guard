@@ -1,68 +1,86 @@
 {
-  "name": "sentinel-guard",
-  "version": "1.0.0",
-  "description": "A typesafe API wrapper library for monitoring with heartbeat functionality",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist/**/*",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "npm run clean && npm run build:esm",
-    "build:esm": "tsc -p tsconfig.build.json",
-    "build:cjs": "tsc -p tsconfig.build.json --module commonjs --outDir dist/cjs && node scripts/fix-cjs.js",
-    "dev": "node --loader ts-node/esm index.ts",
-    "dev:bun": "bun run index.ts",
-    "test": "node --test",
-    "test:bun": "bun test",
-    "prepublishOnly": "npm run build",
-    "clean": "rm -rf dist"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "keywords": [
-    "monitoring",
-    "heartbeat",
-    "api-wrapper",
-    "typescript",
-    "uptime",
-    "sentinel",
-    "guard",
-    "health-check"
-  ],
-  "author": "",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/your-username/sentinel-guard.git"
-  },
-  "bugs": {
-    "url": "https://github.com/your-username/sentinel-guard/issues"
-  },
-  "homepage": "https://github.com/your-username/sentinel-guard#readme",
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
-  },
-  "peerDependencies": {
-    "@types/node": ">=16.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@types/node": {
-      "optional": true
-    }
-  }
+	"name": "@uptimebeacon/sentinel-guard",
+	"version": "1.0.0",
+	"description": "A typesafe API wrapper library for monitoring with heartbeat functionality",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist/**/*",
+		"README.md",
+		"LICENSE",
+		"CHANGELOG.md"
+	],
+	"scripts": {
+		"build": "npm run clean && npm run build:esm",
+		"build:esm": "tsc -p tsconfig.build.json",
+		"dev": "node --loader ts-node/esm index.ts",
+		"dev:bun": "bun run index.ts",
+		"test": "node --test",
+		"test:bun": "bun test",
+		"prepublishOnly": "npm run build && npm run test:compatibility",
+		"test:compatibility": "node test-compatibility.js",
+		"clean": "rm -rf dist",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"format:check": "biome format .",
+		"check": "npm run lint && npm run build && npm run test:compatibility"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"keywords": [
+		"monitoring",
+		"heartbeat",
+		"api-wrapper",
+		"typescript",
+		"uptime",
+		"sentinel",
+		"guard",
+		"health-check",
+		"uptimebeacon",
+		"observability",
+		"alerting",
+		"status"
+	],
+	"author": {
+		"name": "UptimeBeacon",
+		"email": "support@uptimebeacon.com",
+		"url": "https://uptimebeacon.com"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uptimebeacon/sentinel-guard.git"
+	},
+	"bugs": {
+		"url": "https://github.com/uptimebeacon/sentinel-guard/issues"
+	},
+	"homepage": "https://github.com/uptimebeacon/sentinel-guard#readme",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"typescript": "^5.0.0",
+		"@biomejs/biome": "^2.0.6"
+	},
+	"peerDependencies": {
+		"@types/node": ">=16.0.0"
+	},
+	"peerDependenciesMeta": {
+		"@types/node": {
+			"optional": true
+		}
+	}
 }

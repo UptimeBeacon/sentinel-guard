@@ -1,4 +1,4 @@
-# SentinelGuard
+# @uptimebeacon/sentinel-guard
 
 Eine typsichere TypeScript-Library für API-Monitoring mit Heartbeat-Funktionalität.
 
@@ -13,20 +13,20 @@ Eine typsichere TypeScript-Library für API-Monitoring mit Heartbeat-Funktionali
 
 ## Installation
 
-SentinelGuard ist mit allen gängigen Package Managern kompatibel:
+@uptimebeacon/sentinel-guard ist mit allen gängigen Package Managern kompatibel:
 
 ```bash
 # npm
-npm install sentinel-guard
+npm install @uptimebeacon/sentinel-guard
 
 # yarn
-yarn add sentinel-guard
+yarn add @uptimebeacon/sentinel-guard
 
 # pnpm
-pnpm add sentinel-guard
+pnpm add @uptimebeacon/sentinel-guard
 
 # bun
-bun add sentinel-guard
+bun add @uptimebeacon/sentinel-guard
 ```
 
 > 📋 **Systemanforderungen**: Node.js ≥16.0.0, TypeScript ≥5.0.0
@@ -36,7 +36,7 @@ bun add sentinel-guard
 ## Schnellstart
 
 ```typescript
-import { SentinelGuard } from 'sentinel-guard';
+import { SentinelGuard } from '@uptimebeacon/sentinel-guard';
 
 // Library konfigurieren
 const sentinel = new SentinelGuard({

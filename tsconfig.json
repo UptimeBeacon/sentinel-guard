@@ -1,8 +1,8 @@
 {
-  "extends": "./tsconfig.build.json",
-  "compilerOptions": {
-    "noEmit": true
-  },
-  "include": ["src/**/*", "index.ts", "examples/**/*"],
-  "exclude": ["node_modules", "dist"]
+	"extends": "./tsconfig.build.json",
+	"compilerOptions": {
+		"noEmit": true
+	},
+	"include": ["src/**/*", "index.ts", "examples/**/*"],
+	"exclude": ["node_modules", "dist"]
 }
