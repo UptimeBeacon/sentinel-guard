@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.0.0...v1.0.1) (2025-07-03)
+
+
+### Bug Fixes
+
+* Remove detailed initial release notes from CHANGELOG.md ([cbb0b86](https://github.com/UptimeBeacon/sentinel-guard/commit/cbb0b8602a2f6e2f0b05574b60179e83f529ca62))
+
 # 1.0.0 (2025-07-03)
 
 
