@@ -1,19 +1,19 @@
 # @uptimebeacon/sentinel-guard
 
-Eine typsichere TypeScript-Library für API-Monitoring mit Heartbeat-Funktionalität.
+A type-safe TypeScript library for API monitoring with heartbeat functionality.
 
 ## Features
 
-- 🔒 **Typsicherheit**: Vollständig typisierte API mit TypeScript
-- 🔄 **Automatische Heartbeats**: Regelmäßige Status-Updates mit konfigurierbaren Intervallen
-- 📊 **Monitor-Management**: Erstellen, aktualisieren und löschen von Monitoren
-- 🔁 **Retry-Logik**: Intelligente Wiederholung bei temporären Fehlern
-- ⚡ **HTTP-Client**: Robuster HTTP-Client mit Timeout und Fehlerbehandlung
-- 🎯 **Error Handling**: Detaillierte Fehlerklassen für verschiedene Szenarien
+-   **Type Safety**: Fully typed API with TypeScript
+-   **Automatic Heartbeats**: Regular status updates with configurable intervals
+-   **Monitor Management**: Create, update, and delete monitors
+-   **Retry Logic**: Intelligent retries for temporary errors
+-   **HTTP Client**: Robust HTTP client with timeout and error handling
+-   **Error Handling**: Detailed error classes for various scenarios
 
 ## Installation
 
-@uptimebeacon/sentinel-guard ist mit allen gängigen Package Managern kompatibel:
+@uptimebeacon/sentinel-guard is compatible with all common package managers:
 
 ```bash
 # npm
@@ -29,16 +29,16 @@ pnpm add @uptimebeacon/sentinel-guard
 bun add @uptimebeacon/sentinel-guard
 ```
 
-> 📋 **Systemanforderungen**: Node.js ≥16.0.0, TypeScript ≥5.0.0
-> 
-> 📖 Detaillierte Informationen zur Package Manager Kompatibilität finden Sie in [PACKAGE_MANAGERS.md](./PACKAGE_MANAGERS.md)
+> **System Requirements**: Node.js \\( \geq 16.0.0 \\), TypeScript \\( \geq 5.0.0 \\)
+>
+> Detailed information on package manager compatibility can be found in [PACKAGE_MANAGERS.md](./PACKAGE_MANAGERS.md)
 
-## Schnellstart
+## Quick Start
 
 ```typescript
 import { SentinelGuard } from '@uptimebeacon/sentinel-guard';
 
-// Library konfigurieren
+// Configure the library
 const sentinel = new SentinelGuard({
   baseUrl: 'https://api.yourservice.com',
   apiKey: 'your-api-key',
@@ -50,22 +50,22 @@ const sentinel = new SentinelGuard({
   },
 });
 
-// Monitor erstellen
+// Create a monitor
 const monitor = await sentinel.createMonitor({
   name: 'My Website',
   url: 'https://example.com',
-  interval: 300, // 5 Minuten
+  interval: 300, // 5 minutes
   timeout: 30,
 });
 
-// Heartbeat konfigurieren und starten
+// Configure and start heartbeat
 sentinel.initializeHeartbeat({
-  interval: 60000, // 1 Minute
+  interval: 60000, // 1 minute
   autoStart: true,
   maxConsecutiveErrors: 5,
 });
 
-// Manueller Heartbeat
+// Manual heartbeat
 await sentinel.sendHeartbeat({
   type: 'CUSTOM',
   status: 'ONLINE',
@@ -77,29 +77,29 @@ await sentinel.sendHeartbeat({
 });
 ```
 
-## API-Referenz
+## API Reference
 
-### SentinelGuard-Konfiguration
+### SentinelGuard Configuration
 
 ```typescript
 interface SentinelGuardConfig {
-  baseUrl: string;           // API-Basis-URL
-  apiKey: string;            // API-Schlüssel
-  timeout?: number;          // Request-Timeout (Standard: 10000ms)
-  retryConfig?: RetryConfig; // Retry-Konfiguration
+  baseUrl: string;           // API base URL
+  apiKey: string;            // API key
+  timeout?: number;          // Request timeout (Default: 10000ms)
+  retryConfig?: RetryConfig; // Retry configuration
 }
 
 interface RetryConfig {
-  maxRetries: number;        // Max. Wiederholungen
-  baseDelay: number;         // Basis-Verzögerung in ms
-  backoffMultiplier: number; // Exponentieller Backoff
+  maxRetries: number;        // Max. retries
+  baseDelay: number;         // Base delay in ms
+  backoffMultiplier: number; // Exponential backoff multiplier
 }
 ```
 
-### Monitor-Management
+### Monitor Management
 
 ```typescript
-// Monitor erstellen
+// Create a monitor
 const monitor = await sentinel.createMonitor({
   name: 'My Service',
   url: 'https://myservice.com',
@@ -108,100 +108,100 @@ const monitor = await sentinel.createMonitor({
   metadata: { environment: 'production' }
 });
 
-// Alle Monitore abrufen
+// Retrieve all monitors
 const monitors = await sentinel.getMonitors();
 
-// Spezifischen Monitor abrufen
+// Retrieve a specific monitor
 const monitor = await sentinel.getMonitor('monitor-id');
 
-// Monitor aktualisieren
+// Update a monitor
 const updated = await sentinel.updateMonitor('monitor-id', {
   name: 'Updated Name',
   interval: 600
 });
 
-// Monitor pausieren/fortsetzen
+// Pause/resume a monitor
 await sentinel.pauseMonitor('monitor-id');
 await sentinel.resumeMonitor('monitor-id');
 
-// Monitor löschen
+// Delete a monitor
 await sentinel.deleteMonitor('monitor-id');
 ```
 
-### Heartbeat-Funktionalität
+### Heartbeat Functionality
 
 ```typescript
-// Heartbeat-Manager initialisieren
+// Initialize Heartbeat Manager
 sentinel.initializeHeartbeat({
-  interval: 60000,        // 1 Minute
-  autoStart: true,        // Automatisch starten
-  maxConsecutiveErrors: 5 // Max. aufeinanderfolgende Fehler
+  interval: 60000,        // 1 minute
+  autoStart: true,        // Automatically start
+  maxConsecutiveErrors: 5 // Max. consecutive errors
 });
 
-// Automatische Heartbeats starten/stoppen
+// Start/stop automatic heartbeats
 sentinel.startHeartbeat();
 sentinel.stopHeartbeat();
 
-// Manueller Heartbeat
+// Manual heartbeat
 await sentinel.sendHeartbeat({
   type: 'CUSTOM',
   status: 'ONLINE',
   latencyMs: 120,
-  metadata: { 
+  metadata: {
     version: '1.0.0',
-    environment: 'production' 
+    environment: 'production'
   }
 });
 
-// Status-Update senden
-await sentinel.sendStatus('HIGH_LATENCY', { 
+// Send status update
+await sentinel.sendStatus('HIGH_LATENCY', {
   latencyMs: 2500,
-  reason: 'database-timeout' 
+  reason: 'database-timeout'
 });
 
-// Health-Check durchführen
+// Perform health check
 const health = await sentinel.healthCheck();
 
-// Heartbeat-Status prüfen
+// Check heartbeat status
 const isActive = sentinel.isHeartbeatActive();
 const errorCount = sentinel.getHeartbeatErrorCount();
 ```
 
-### Fehlerbehandlung
+### Error Handling
 
-Die Library bietet spezifische Fehlerklassen:
+The library provides specific error classes:
 
 ```typescript
-import { 
-  SentinelGuardError, 
-  NetworkError, 
-  AuthenticationError, 
-  RateLimitError 
+import {
+  SentinelGuardError,
+  NetworkError,
+  AuthenticationError,
+  RateLimitError
 } from 'sentinel-guard';
 
 try {
   await sentinel.sendHeartbeat();
 } catch (error) {
   if (error instanceof AuthenticationError) {
-    console.error('API-Schlüssel ungültig');
+    console.error('API key invalid');
   } else if (error instanceof RateLimitError) {
-    console.error('Rate-Limit erreicht');
+    console.error('Rate limit exceeded');
   } else if (error instanceof NetworkError) {
-    console.error('Netzwerkfehler:', error.message);
+    console.error('Network error:', error.message);
   }
 }
 ```
 
-### Ressourcen bereinigen
+### Cleaning Resources
 
 ```typescript
-// Wichtig: Ressourcen bereinigen wenn die Anwendung beendet wird
+// Important: Clean up resources when the application shuts down
 sentinel.destroy();
 ```
 
-## Beispiele
+## Examples
 
-### Einfacher Monitor
+### Simple Monitor
 
 ```typescript
 import { SentinelGuard } from 'sentinel-guard';
@@ -211,7 +211,7 @@ const sentinel = new SentinelGuard({
   apiKey: process.env.API_KEY!,
 });
 
-// Website-Monitor erstellen
+// Create website monitor
 const monitor = await sentinel.createMonitor({
   name: 'Production Website',
   url: 'https://mywebsite.com',
@@ -219,10 +219,10 @@ const monitor = await sentinel.createMonitor({
   timeout: 30,
 });
 
-console.log(`Monitor erstellt: ${monitor.data?.id}`);
+console.log(`Monitor created: ${monitor.data?.id}`);
 ```
 
-### Heartbeat mit Express.js
+### Heartbeat with Express.js
 
 ```typescript
 import express from 'express';
@@ -234,14 +234,14 @@ const sentinel = new SentinelGuard({
   apiKey: process.env.API_KEY!,
 });
 
-// Heartbeat alle 30 Sekunden
+// Heartbeat every 30 seconds
 sentinel.initializeHeartbeat({
   interval: 30000,
   autoStart: true,
 });
 
 app.listen(3000, () => {
-  console.log('Server gestartet');
+  console.log('Server started');
 });
 
 // Graceful shutdown
@@ -251,7 +251,7 @@ process.on('SIGINT', () => {
 });
 ```
 
-### Erweiterte Konfiguration
+### Advanced Configuration
 
 ```typescript
 const sentinel = new SentinelGuard({
@@ -265,55 +265,55 @@ const sentinel = new SentinelGuard({
   },
 });
 
-// Heartbeat mit Error-Handling
+// Heartbeat with error handling
 sentinel.initializeHeartbeat({
-  interval: 120000, // 2 Minuten
+  interval: 120000, // 2 minutes
   maxConsecutiveErrors: 3,
   autoStart: false,
 });
 
-// Manuell starten mit Überwachung
+// Manually start with monitoring
 sentinel.startHeartbeat();
 
-// Fehleranzahl regelmäßig prüfen
+// Regularly check error count
 setInterval(() => {
   const errors = sentinel.getHeartbeatErrorCount();
   if (errors > 0) {
-    console.warn(`${errors} aufeinanderfolgende Heartbeat-Fehler`);
+    console.warn(`${errors} consecutive Heartbeat errors`);
   }
 }, 60000);
 ```
 
-## Entwicklung
+## Development
 
 ```bash
-# Dependencies installieren (wähle deinen bevorzugten Package Manager)
-npm install    # oder yarn install, pnpm install, bun install
+# Install dependencies (choose your preferred package manager)
+npm install    # or yarn install, pnpm install, bun install
 
-# Entwicklungsserver starten
+# Start development server
 npm run dev    # Standard Node.js
-npm run dev:bun # Mit Bun Runtime
+npm run dev:bun # With Bun Runtime
 
-# Build erstellen
+# Create build
 npm run build
 
-# Tests ausführen
+# Run tests
 npm test       # Standard Node.js Tests
-npm run test:bun # Mit Bun Test Runner
+npm run test:bun # With Bun Test Runner
 ```
 
-### Package Manager Kompatibilität
+### Package Manager Compatibility
 
-- ✅ **npm** - Standard Package Manager
-- ✅ **yarn** - Mit Workspace-Unterstützung
-- ✅ **pnpm** - Effiziente Disk-Nutzung
-- ✅ **bun** - Native TypeScript-Unterstützung
+-   ✅ **npm** - Standard Package Manager
+-   ✅ **yarn** - With workspace support
+-   ✅ **pnpm** - Efficient disk usage
+-   ✅ **bun** - Native TypeScript support
 
-Siehe [PACKAGE_MANAGERS.md](./PACKAGE_MANAGERS.md) für detaillierte Anweisungen.
+See [PACKAGE_MANAGERS.md](./PACKAGE_MANAGERS.md) for detailed instructions.
 
-## Lizenz
+## License
 
-MIT License - siehe [LICENSE](LICENSE) Datei für Details.d
+MIT License - see [LICENSE](LICENSE) file for details.
 
 To install dependencies:
 

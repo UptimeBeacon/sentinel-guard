@@ -1,41 +1,41 @@
-# 🚀 SentinelGuard - Vollständige Package Manager Kompatibilität
+# SentinelGuard - Full Package Manager Compatibility
 
-## ✅ **Ja, die Library ist mit ALLEN gängigen Package Managern kompatibel!**
+## ✅ Yes, the library is compatible with ALL common package managers!
 
-### 📦 Unterstützte Package Manager
+### Supported Package Managers
 
-| Package Manager | Status | Installation | Besonderheiten |
-|----------------|--------|--------------|----------------|
-| **npm** | ✅ Vollständig | `npm install sentinel-guard` | Standard, alle Features |
-| **yarn** | ✅ Vollständig | `yarn add sentinel-guard` | Workspace-Support, PnP kompatibel |
-| **pnpm** | ✅ Vollständig | `pnpm add sentinel-guard` | Effiziente Disk-Nutzung |
-| **bun** | ✅ Vollständig | `bun add sentinel-guard` | Native TypeScript, beste Performance |
+| Package Manager | Status      | Installation           | Specifics                                 |
+|-----------------|-------------|------------------------|-------------------------------------------|
+| **npm**         | Fully compatible | `npm install sentinel-guard` | Standard, all features                   |
+| **yarn**        | Fully compatible | `yarn add sentinel-guard`    | Workspace support, PnP compatible       |
+| **pnpm**        | Fully compatible | `pnpm add sentinel-guard`    | Efficient disk usage                    |
+| **bun**         | Fully compatible | `bun add sentinel-guard`     | Native TypeScript, best performance |
 
-## 🔧 Technische Kompatibilität
+## Technical Compatibility
 
 ### ES Modules Support
-- ✅ Native ES Modules (`"type": "module"`)
-- ✅ TypeScript-Definitionen (`.d.ts`)
-- ✅ Source Maps für Debugging
-- ✅ Tree-shaking optimiert
+-   ✅ Native ES Modules (`"type": "module"`)
+-   ✅ TypeScript definitions (`.d.ts`)
+-   ✅ Source Maps for debugging
+-   ✅ Tree-shaking optimized
 
-### Runtime Kompatibilität
-- ✅ **Node.js** ≥16.0.0
-- ✅ **Bun** (alle Versionen)
-- ✅ **Deno** (via npm specifier)
-- ✅ **Browser** (via Bundler)
+### Runtime Compatibility
+-   ✅ **Node.js** \\( \geq 16.0.0 \\)
+-   ✅ **Bun** (all versions)
+-   ✅ **Deno** (via npm specifier)
+-   ✅ **Browser** (via Bundler)
 
 ### Build Tools Integration
-- ✅ **Webpack** - Automatisches Tree-shaking
-- ✅ **Vite** - Native ES Module Support
-- ✅ **Rollup** - Optimiert für Bundling
-- ✅ **esbuild** - Schnelle TypeScript-Kompilierung
-- ✅ **Parcel** - Zero-config Setup
-- ✅ **Bun Build** - Native Integration
+-   ✅ **Webpack** - Automatic tree-shaking
+-   ✅ **Vite** - Native ES Module Support
+-   ✅ **Rollup** - Optimized for Bundling
+-   ✅ **esbuild** - Fast TypeScript compilation
+-   ✅ **Parcel** - Zero-config setup
+-   ✅ **Bun Build** - Native integration
 
-## 📋 Schnellstart-Anleitung
+## Quick Start Guide
 
-### 1. Installation (wählen Sie Ihren Package Manager)
+### 1. Installation (choose your package manager)
 
 ```bash
 # npm (Standard)
@@ -44,17 +44,17 @@ npm install sentinel-guard
 # yarn (Berry/Classic)
 yarn add sentinel-guard
 
-# pnpm (Empfohlen für Monorepos)
+# pnpm (Recommended for Monorepos)
 pnpm add sentinel-guard
 
-# bun (Schnellste Option)
+# bun (Fastest Option)
 bun add sentinel-guard
 ```
 
-### 2. Import & Verwendung
+### 2. Import & Usage
 
 ```typescript
-// Funktioniert identisch in allen Umgebungen
+// Works identically in all environments
 import { SentinelGuard } from 'sentinel-guard';
 
 const sentinel = new SentinelGuard({
@@ -63,10 +63,10 @@ const sentinel = new SentinelGuard({
 });
 ```
 
-### 3. Entwicklung
+### 3. Development
 
 ```bash
-# Wählen Sie Ihren Package Manager für Entwicklung
+# Choose your package manager for development
 
 # npm
 npm run dev
@@ -83,35 +83,35 @@ pnpm dev
 pnpm build
 pnpm test
 
-# bun (mit spezifischen Skripten)
+# bun (with specific scripts)
 bun run dev:bun
 bun run build
 bun run test:bun
 ```
 
-## 🎯 Empfehlungen nach Use Case
+## Recommendations by Use Case
 
-### 🏢 **Enterprise/Teams**
-- **pnpm** für Workspace-Management und Disk-Effizienz
-- Beste Dependency-Deduplication
-- Konsistente Builds in CI/CD
+### Enterprise/Teams
+-   **pnpm** for Workspace management and disk efficiency
+-   Best dependency deduplication
+-   Consistent builds in CI/CD
 
-### 🚀 **Performance-kritische Projekte**
-- **bun** für maximale Geschwindigkeit
-- Native TypeScript-Kompilierung
-- Schnellste Installation und Tests
+### Performance-Critical Projects
+-   **bun** for maximum speed
+-   Native TypeScript compilation
+-   Fastest installation and tests
 
-### 🔄 **Bestehende Projekte**
-- **Behalten Sie Ihren aktuellen Package Manager**
-- Die Library funktioniert überall identisch
-- Keine Migration erforderlich
+### Existing Projects
+-   **Retain your current Package Manager**
+-   The library works identically everywhere
+-   No migration required
 
-### 👥 **Open Source/Community**
-- **npm** für maximale Kompatibilität
-- Standard-Wahl der Community
-- Beste Registry-Integration
+### Open Source/Community
+-   **npm** for maximum compatibility
+-   Standard community choice
+-   Best registry integration
 
-## 🔍 Getestete Konfigurationen
+## Tested Configurations
 
 ```bash
 ✅ Node.js 16 + npm 8
@@ -123,27 +123,25 @@ bun run test:bun
 ✅ Bun 1.0+
 ```
 
-## 🚨 Bekannte Einschränkungen
+## Known Limitations
 
-- **Keine**: Die Library ist vollständig kompatibel
-- **TypeScript**: Requires TypeScript ≥5.0.0 als peer dependency
-- **Node.js**: Minimum Version 16.0.0 für ES Module Support
+-   **None**: The library is fully compatible
+-   **TypeScript**: Requires TypeScript \\( \geq 5.0.0 \\) as a peer dependency
+-   **Node.js**: Minimum version 16.0.0 for ES Module Support
 
-## 📊 Performance-Vergleich
+## Performance Comparison
 
-| Metric | npm | yarn | pnpm | bun |
-|--------|-----|------|------|-----|
-| Install Speed | 100% | 120% | 150% | 200% |
-| Disk Usage | 100% | 100% | 30% | 80% |
-| Runtime Performance | 100% | 100% | 100% | 110% |
-| TypeScript Speed | 100% | 100% | 100% | 300% |
+| Metric         | npm        | yarn       | pnpm       | bun        |
+|----------------|------------|------------|------------|------------|
+| Install Speed  | Good       | Very Good  | Excellent  | Excellent  |
+| Disk Usage     | Good       | Good       | Excellent  | Very Good  |
+| Runtime Performance | Good       | Good       | Good       | Very Good  |
+| TypeScript Speed | Good       | Good       | Good       | Excellent  |
 
-## 🎉 Fazit
+## Conclusion
 
-**SentinelGuard ist zu 100% kompatibel mit allen modernen Package Managern.** 
+**SentinelGuard is 100% compatible with all modern package managers.**
 
-Wählen Sie einfach Ihren bevorzugten Package Manager und legen Sie los - die Library funktioniert überall identisch und bietet die gleichen Features und Performance-Charakteristika.
+Simply choose your preferred package manager and get started – the library works identically everywhere and offers the same features and performance characteristics.
 
----
-
-*Haben Sie Probleme mit einem spezifischen Package Manager? [Erstellen Sie ein Issue](https://github.com/your-username/sentinel-guard/issues) - wir helfen gerne!*
+*Having issues with a specific package manager? [Create an issue](https://github.com/uptimebeacon/sentinel-guard/issues) – we're happy to help!*
