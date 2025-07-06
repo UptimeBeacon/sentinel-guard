@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.1.0...v1.2.0) (2025-07-06)
+
+
+### Features
+
+* Refactor HttpClient to support monitor API key and update authorization method ([dd6a2ae](https://github.com/UptimeBeacon/sentinel-guard/commit/dd6a2ae09ca6c8ce71a3b22e12de45389718e9e7))
+* Update compatibility tests to validate configuration and API methods ([f4f466c](https://github.com/UptimeBeacon/sentinel-guard/commit/f4f466c9cf45f8ef4ca9d5c8a778d9334125eaa1))
+
 # [1.1.0](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.0.1...v1.1.0) (2025-07-03)
 
 
