@@ -28,16 +28,6 @@ module.exports = {
 			},
 		],
 		[
-			"@semantic-release/npm",
-			{
-				npmPublish: true,
-				pkgRoot: ".",
-				publishConfig: {
-					registry: "https://npm.pkg.github.com",
-				},
-			},
-		],
-		[
 			"@semantic-release/git",
 			{
 				assets: ["package.json", "CHANGELOG.md"],
