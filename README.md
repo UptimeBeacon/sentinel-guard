@@ -1,15 +1,30 @@
 # @uptimebeacon/sentinel-guard
 
-A type-safe TypeScript library for API monitoring with heartbeat functionality.
+A type-safe TypeScript library for simple application monitoring with automatic heartbeat functionality. Part of the [UptimeBeacon.cloud](https://uptimebeacon.cloud) monitoring platform.
+
+## About UptimeBeacon
+
+This library is the official client for **UptimeBeacon.cloud** - a powerful SaaS monitoring platform that helps you keep track of your applications, services, and infrastructure. UptimeBeacon provides real-time monitoring, alerting, and performance analytics for your critical systems.
+
+**Key Benefits:**
+
+- 🚀 **Easy Integration**: Get started in minutes with this simple library
+- 📊 **Real-time Monitoring**: Live dashboards and metrics
+- 🔔 **Smart Alerts**: Discord webhook notifications (Email, SMS, Slack, and webhook notifications coming soon)
+- 📈 **Performance Analytics**: Historical data and trends
+- 🌍 **Global Infrastructure**: Monitoring from multiple regions
+- 💰 **Affordable Pricing**: Scale with your business needs
+
+[Sign up for UptimeBeacon.cloud →](https://uptimebeacon.cloud)
 
 ## Features
 
--   **Type Safety**: Fully typed API with TypeScript
--   **Automatic Heartbeats**: Regular status updates with configurable intervals
--   **Monitor Management**: Create, update, and delete monitors
--   **Retry Logic**: Intelligent retries for temporary errors
--   **HTTP Client**: Robust HTTP client with timeout and error handling
--   **Error Handling**: Detailed error classes for various scenarios
+- **Simple Setup**: Start monitoring with just a few lines of code
+- **Automatic Heartbeats**: Regular status updates with configurable intervals
+- **Type Safety**: Fully typed API with TypeScript
+- **Performance Monitoring**: Database latency tracking (Prisma & Redis)
+- **Error Handling**: Intelligent error tracking and retry logic
+- **Graceful Shutdown**: Clean resource management
 
 ## Installation
 
@@ -29,53 +44,47 @@ pnpm add @uptimebeacon/sentinel-guard
 bun add @uptimebeacon/sentinel-guard
 ```
 
-> **System Requirements**: Node.js \\( \geq 16.0.0 \\), TypeScript \\( \geq 5.0.0 \\)
+> **System Requirements**: Node.js ≥ 16.0.0, TypeScript ≥ 5.0.0
 >
-> Detailed information on package manager compatibility can be found in [PACKAGE_MANAGERS.md](./PACKAGE_MANAGERS.md)
+> **Prerequisites**: You need an [UptimeBeacon.cloud](https://uptimebeacon.cloud) account to get your API keys.
 
 ## Quick Start
 
+### 1. Get Your API Keys
+
+1. Sign up at [UptimeBeacon.cloud](https://uptimebeacon.cloud)
+2. Create a new project in your dashboard
+3. Copy your API keys from the project settings
+
+### 2. Initialize and Start Monitoring
+
 ```typescript
-import { SentinelGuard } from '@uptimebeacon/sentinel-guard';
+import { SentinelGuard } from "@uptimebeacon/sentinel-guard";
 
-// Configure the library
+// Initialize with your UptimeBeacon.cloud API keys
 const sentinel = new SentinelGuard({
-  baseUrl: 'https://api.yourservice.com',
-  apiKey: 'your-api-key',
-  timeout: 10000,
-  retryConfig: {
-    maxRetries: 3,
-    baseDelay: 1000,
-    backoffMultiplier: 2,
-  },
+  apiKey: process.env.SENTINEL_API_KEY!, // From UptimeBeacon dashboard
+  baseUrl: process.env.SENTINEL_API_URL!, // Your UptimeBeacon API endpoint
+  monitorApiKey: process.env.SENTINEL_MONITOR_API_KEY!, // Monitor-specific key
+  timeout: 10000, // optional
 });
 
-// Create a monitor
-const monitor = await sentinel.createMonitor({
-  name: 'My Website',
-  url: 'https://example.com',
-  interval: 300, // 5 minutes
-  timeout: 30,
-});
-
-// Configure and start heartbeat
-sentinel.initializeHeartbeat({
-  interval: 60000, // 1 minute
-  autoStart: true,
+// Start automatic monitoring - data will appear in your UptimeBeacon dashboard
+sentinel.startMonitoring({
+  interval: 30000, // Send heartbeat every 30 seconds
   maxConsecutiveErrors: 5,
 });
 
-// Manual heartbeat
-await sentinel.sendHeartbeat({
-  type: 'CUSTOM',
-  status: 'ONLINE',
-  latencyMs: 150,
-  metadata: {
-    version: '1.0.0',
-    region: 'eu-west'
-  }
+console.log("✅ Monitoring started");
+
+// 3. Graceful shutdown
+process.on("SIGINT", () => {
+  sentinel.stopMonitoring();
+  process.exit(0);
 });
 ```
+
+That's it! Your application now automatically sends heartbeats every 30 seconds to UptimeBeacon.cloud. Monitor your application health, performance, and uptime directly from your [UptimeBeacon dashboard](https://uptimebeacon.cloud/dashboard).
 
 ## API Reference
 
@@ -83,248 +92,256 @@ await sentinel.sendHeartbeat({
 
 ```typescript
 interface SentinelGuardConfig {
-  baseUrl: string;           // API base URL
-  apiKey: string;            // API key
-  timeout?: number;          // Request timeout (Default: 10000ms)
-  retryConfig?: RetryConfig; // Retry configuration
-}
-
-interface RetryConfig {
-  maxRetries: number;        // Max. retries
-  baseDelay: number;         // Base delay in ms
-  backoffMultiplier: number; // Exponential backoff multiplier
+  apiKey: string; // Your UptimeBeacon.cloud API key
+  baseUrl: string; // UptimeBeacon API base URL (from dashboard)
+  monitorApiKey: string; // Monitor-specific API key (from dashboard)
+  timeout?: number; // Request timeout (default: 10000ms)
 }
 ```
 
-### Monitor Management
+All configuration values can be found in your [UptimeBeacon.cloud dashboard](https://uptimebeacon.cloud/dashboard) under project settings.
+
+### Core Methods
+
+#### Starting and Stopping Monitoring
 
 ```typescript
-// Create a monitor
-const monitor = await sentinel.createMonitor({
-  name: 'My Service',
-  url: 'https://myservice.com',
-  interval: 300,
-  timeout: 30,
-  metadata: { environment: 'production' }
+// Start automatic monitoring
+sentinel.startMonitoring({
+  interval: 30000, // Heartbeat interval in ms
+  maxConsecutiveErrors: 5, // Max errors before alerting
 });
 
-// Retrieve all monitors
-const monitors = await sentinel.getMonitors();
+// Stop monitoring
+sentinel.stopMonitoring();
 
-// Retrieve a specific monitor
-const monitor = await sentinel.getMonitor('monitor-id');
+// Check if monitoring is active
+const isActive = sentinel.isMonitoringActive();
 
-// Update a monitor
-const updated = await sentinel.updateMonitor('monitor-id', {
-  name: 'Updated Name',
-  interval: 600
-});
+// Get current error count
+const errorCount = sentinel.getErrorCount();
 
-// Pause/resume a monitor
-await sentinel.pauseMonitor('monitor-id');
-await sentinel.resumeMonitor('monitor-id');
-
-// Delete a monitor
-await sentinel.deleteMonitor('monitor-id');
+// Clean up resources
+sentinel.destroy();
 ```
 
-### Heartbeat Functionality
+#### Manual Heartbeats
 
 ```typescript
-// Initialize Heartbeat Manager
-sentinel.initializeHeartbeat({
-  interval: 60000,        // 1 minute
-  autoStart: true,        // Automatically start
-  maxConsecutiveErrors: 5 // Max. consecutive errors
-});
-
-// Start/stop automatic heartbeats
-sentinel.startHeartbeat();
-sentinel.stopHeartbeat();
-
-// Manual heartbeat
-await sentinel.sendHeartbeat({
-  type: 'CUSTOM',
-  status: 'ONLINE',
-  latencyMs: 120,
-  metadata: {
+// Send a manual heartbeat
+const response = await sentinel.sendHeartbeat({
+  status: 'ONLINE',           // Status of your application
+  metadata?: {                // Optional metadata
+    service: 'my-app',
     version: '1.0.0',
     environment: 'production'
   }
 });
 
-// Send status update
-await sentinel.sendStatus('HIGH_LATENCY', {
-  latencyMs: 2500,
-  reason: 'database-timeout'
-});
-
-// Perform health check
-const health = await sentinel.healthCheck();
-
-// Check heartbeat status
-const isActive = sentinel.isHeartbeatActive();
-const errorCount = sentinel.getHeartbeatErrorCount();
-```
-
-### Error Handling
-
-The library provides specific error classes:
-
-```typescript
-import {
-  SentinelGuardError,
-  NetworkError,
-  AuthenticationError,
-  RateLimitError
-} from 'sentinel-guard';
-
-try {
-  await sentinel.sendHeartbeat();
-} catch (error) {
-  if (error instanceof AuthenticationError) {
-    console.error('API key invalid');
-  } else if (error instanceof RateLimitError) {
-    console.error('Rate limit exceeded');
-  } else if (error instanceof NetworkError) {
-    console.error('Network error:', error.message);
-  }
+if (response.success) {
+  console.log('✅ Heartbeat sent successfully');
+} else {
+  console.log('❌ Heartbeat failed:', response.error);
 }
 ```
 
-### Cleaning Resources
+### Database Performance Monitoring (Optional)
+
+Track database latency by providing your database clients:
 
 ```typescript
-// Important: Clean up resources when the application shuts down
-sentinel.destroy();
+import { PrismaClient } from "@prisma/client";
+import { createClient } from "redis";
+
+const prisma = new PrismaClient();
+const redis = createClient();
+await redis.connect();
+
+// Configure database clients for latency tracking
+sentinel.setPrismaClient(prisma);
+sentinel.setRedisClient(redis);
 ```
+
+When configured, SentinelGuard will automatically measure and include database latency in heartbeats.
 
 ## Examples
 
-### Simple Monitor
+### Basic Express.js App
 
 ```typescript
-import { SentinelGuard } from 'sentinel-guard';
-
-const sentinel = new SentinelGuard({
-  baseUrl: 'https://api.monitoring.com',
-  apiKey: process.env.API_KEY!,
-});
-
-// Create website monitor
-const monitor = await sentinel.createMonitor({
-  name: 'Production Website',
-  url: 'https://mywebsite.com',
-  interval: 300,
-  timeout: 30,
-});
-
-console.log(`Monitor created: ${monitor.data?.id}`);
-```
-
-### Heartbeat with Express.js
-
-```typescript
-import express from 'express';
-import { SentinelGuard } from 'sentinel-guard';
+import express from "express";
+import { SentinelGuard } from "@uptimebeacon/sentinel-guard";
 
 const app = express();
+
+// Initialize monitoring
 const sentinel = new SentinelGuard({
-  baseUrl: 'https://api.monitoring.com',
-  apiKey: process.env.API_KEY!,
+  apiKey: process.env.SENTINEL_API_KEY!,
+  baseUrl: process.env.SENTINEL_API_URL!,
+  monitorApiKey: process.env.SENTINEL_MONITOR_API_KEY!,
 });
 
-// Heartbeat every 30 seconds
-sentinel.initializeHeartbeat({
-  interval: 30000,
-  autoStart: true,
-});
-
+// Start monitoring when server starts
 app.listen(3000, () => {
-  console.log('Server started');
+  console.log("Server started on port 3000");
+
+  sentinel.startMonitoring({
+    interval: 60000, // Every minute
+    maxConsecutiveErrors: 3,
+  });
+
+  console.log("✅ Monitoring started");
 });
 
 // Graceful shutdown
-process.on('SIGINT', () => {
-  sentinel.destroy();
+process.on("SIGINT", () => {
+  console.log("🛑 Shutting down...");
+  sentinel.stopMonitoring();
   process.exit(0);
 });
 ```
 
-### Advanced Configuration
+### With Database Monitoring
 
 ```typescript
+import { SentinelGuard } from "@uptimebeacon/sentinel-guard";
+import { PrismaClient } from "@prisma/client";
+import { createClient } from "redis";
+
 const sentinel = new SentinelGuard({
-  baseUrl: 'https://api.monitoring.com',
-  apiKey: process.env.API_KEY!,
-  timeout: 15000,
-  retryConfig: {
-    maxRetries: 5,
-    baseDelay: 2000,
-    backoffMultiplier: 1.5,
-  },
+  apiKey: process.env.SENTINEL_API_KEY!,
+  baseUrl: process.env.SENTINEL_API_URL!,
+  monitorApiKey: process.env.SENTINEL_MONITOR_API_KEY!,
 });
 
-// Heartbeat with error handling
-sentinel.initializeHeartbeat({
-  interval: 120000, // 2 minutes
-  maxConsecutiveErrors: 3,
-  autoStart: false,
+// Setup database clients
+const prisma = new PrismaClient();
+const redis = createClient({ url: process.env.REDIS_URL });
+await redis.connect();
+
+// Configure for performance monitoring
+sentinel.setPrismaClient(prisma);
+sentinel.setRedisClient(redis);
+
+// Start monitoring with database latency tracking
+sentinel.startMonitoring({
+  interval: 30000,
+  maxConsecutiveErrors: 5,
 });
 
-// Manually start with monitoring
-sentinel.startHeartbeat();
-
-// Regularly check error count
-setInterval(() => {
-  const errors = sentinel.getHeartbeatErrorCount();
-  if (errors > 0) {
-    console.warn(`${errors} consecutive Heartbeat errors`);
-  }
-}, 60000);
+console.log("✅ Monitoring with database tracking started");
 ```
+
+### Manual Heartbeat with Custom Data
+
+```typescript
+// Send heartbeat with custom application data
+try {
+  const response = await sentinel.sendHeartbeat({
+    status: "ONLINE",
+    metadata: {
+      service: "user-service",
+      version: "2.1.0",
+      environment: "production",
+      region: "eu-west-1",
+      activeUsers: 1247,
+      memoryUsage: process.memoryUsage(),
+    },
+  });
+
+  if (response.success) {
+    console.log("✅ Custom heartbeat sent");
+  }
+} catch (error) {
+  console.error("❌ Heartbeat error:", error);
+}
+```
+
+### Monitoring Status
+
+```typescript
+// Check monitoring status periodically
+setInterval(() => {
+  const isActive = sentinel.isMonitoringActive();
+  const errorCount = sentinel.getErrorCount();
+
+  console.log(`📊 Monitoring: ${isActive ? "Active" : "Inactive"}`);
+
+  if (errorCount > 0) {
+    console.warn(`⚠️ ${errorCount} consecutive errors`);
+  }
+}, 60000); // Check every minute
+```
+
+## Error Handling
+
+The library handles errors gracefully and provides detailed information:
+
+```typescript
+try {
+  const response = await sentinel.sendHeartbeat({
+    status: "ONLINE",
+  });
+
+  if (!response.success) {
+    console.error("Heartbeat failed:", response.error);
+  }
+} catch (error) {
+  console.error("Network or API error:", error);
+}
+```
+
+## Best Practices
+
+1. **Environment Variables**: Store API keys in environment variables
+2. **Graceful Shutdown**: Always call `stopMonitoring()` before exit
+3. **Error Monitoring**: Monitor the error count regularly
+4. **Appropriate Intervals**: Choose heartbeat intervals based on your needs (30-300 seconds recommended)
+5. **Resource Cleanup**: Call `destroy()` when shutting down
 
 ## Development
 
 ```bash
-# Install dependencies (choose your preferred package manager)
-npm install    # or yarn install, pnpm install, bun install
+# Install dependencies
+bun install
 
-# Start development server
-npm run dev    # Standard Node.js
-npm run dev:bun # With Bun Runtime
+# Start development
+bun run dev
 
-# Create build
-npm run build
+# Build library
+bun run build
 
 # Run tests
-npm test       # Standard Node.js Tests
-npm run test:bun # With Bun Test Runner
+bun test
+
+# Check compatibility
+bun run test:compatibility
 ```
 
-### Package Manager Compatibility
+## Environment Variables
 
--   ✅ **npm** - Standard Package Manager
--   ✅ **yarn** - With workspace support
--   ✅ **pnpm** - Efficient disk usage
--   ✅ **bun** - Native TypeScript support
+Create a `.env` file in your project with your UptimeBeacon.cloud credentials:
 
-See [PACKAGE_MANAGERS.md](./PACKAGE_MANAGERS.md) for detailed instructions.
+```env
+# Get these from your UptimeBeacon.cloud dashboard
+SENTINEL_API_KEY=your-uptimebeacon-api-key
+SENTINEL_API_URL=https://api.uptimebeacon.cloud
+SENTINEL_MONITOR_API_KEY=your-monitor-api-key
+```
+
+**Where to find your credentials:**
+
+> Currently UptimeBeacon is in a closed beta. Please contact us for access.
+
+1. Log in to [UptimeBeacon.cloud](https://uptimebeacon.cloud)
+2. Go to your dashboard
+3. Navigate to "API Keys"
+4. Create and copy the required keys and API endpoint
+5. Navigate to your monitors
+6. Create a monitor
+7. Navigate to "configure"
+8. Generate a new API key
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
-
-To install dependencies:
-
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.2.17. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
