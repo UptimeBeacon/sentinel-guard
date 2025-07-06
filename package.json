@@ -68,7 +68,8 @@
 	"homepage": "https://github.com/UptimeBeacon/sentinel-guard#readme",
 	"publishConfig": {
 		"access": "public",
-		"registry": "https://registry.npmjs.org/"
+		"registry": "https://registry.npmjs.org/",
+		"tag": "latest"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.0.6",
