@@ -1,15 +1,17 @@
 /**
- * Typdefinitionen für die SentinelGuard Library
+ * Vereinfachte Typdefinitionen für SentinelGuard
  */
 
 export interface SentinelGuardConfig {
-	/** Die Basis-URL der API */
+	/** Base URL der API */
 	baseUrl: string;
-	/** Der API-Schlüssel für die Authentifizierung */
+	/** API-Schlüssel */
 	apiKey: string;
-	/** Optionale Timeout-Einstellungen in Millisekunden */
+	/** Monitor API-Schlüssel */
+	monitorApiKey: string;
+	/** Timeout in Millisekunden (optional, Standard: 10000) */
 	timeout?: number;
-	/** Optionale Retry-Konfiguration */
+	/** Retry-Konfiguration (optional) */
 	retryConfig?: RetryConfig;
 }
 
@@ -22,104 +24,65 @@ export interface RetryConfig {
 	backoffMultiplier: number;
 }
 
-export interface Monitor {
-	/** Eindeutige ID des Monitors */
-	id: string;
-	/** Name des Monitors */
-	name: string;
-	/** URL die überwacht wird */
-	url: string;
-	/** Überprüfungsintervall in Sekunden */
+export interface HeartbeatConfig {
+	/** Intervall für Heartbeats in Millisekunden */
 	interval: number;
-	/** Timeout für die Überprüfung in Sekunden */
-	timeout: number;
-	/** Status des Monitors */
-	status: MonitorStatus;
-	/** Zeitstempel der letzten Überprüfung */
-	lastCheck?: string;
-	/** Zeitstempel der Erstellung */
-	createdAt: string;
-	/** Zeitstempel der letzten Aktualisierung */
-	updatedAt: string;
-	/** Zusätzliche Metadaten */
-	metadata?: Record<string, unknown>;
-}
-
-export type MonitorStatus = "active" | "inactive" | "paused" | "error";
-
-export interface CreateMonitorRequest {
-	/** Name des Monitors */
-	name: string;
-	/** URL die überwacht wird */
-	url: string;
-	/** Überprüfungsintervall in Sekunden (optional, Standard: 300) */
-	interval?: number;
-	/** Timeout für die Überprüfung in Sekunden (optional, Standard: 30) */
-	timeout?: number;
-	/** Zusätzliche Metadaten */
-	metadata?: Record<string, unknown>;
-}
-
-export interface UpdateMonitorRequest {
-	/** Name des Monitors */
-	name?: string;
-	/** URL die überwacht wird */
-	url?: string;
-	/** Überprüfungsintervall in Sekunden */
-	interval?: number;
-	/** Timeout für die Überprüfung in Sekunden */
-	timeout?: number;
-	/** Status des Monitors */
-	status?: MonitorStatus;
-	/** Zusätzliche Metadaten */
-	metadata?: Record<string, unknown>;
+	/** Maximale aufeinanderfolgende Fehler bevor Stopp */
+	maxConsecutiveErrors?: number;
 }
 
 export interface HeartbeatData {
+	/** Status des Services */
+	status: "ONLINE" | "OFFLINE" | "ERROR" | "HIGH_LATENCY";
 	/** Typ des Heartbeats */
 	type: "CUSTOM";
-	/** Status des Services */
-	status: "ONLINE" | "OFFLINE" | "HIGH_LATENCY" | "ERROR";
-	/** Latenz in Millisekunden (optional) */
+	/** Service-Latenz in Millisekunden */
 	latencyMs?: number;
+	/** Performance-Daten */
+	performance?: PerformanceMetrics;
 	/** Zusätzliche Metadaten */
 	metadata?: Record<string, unknown>;
 }
 
-export interface HeartbeatResponse {
-	/** Erfolg des Heartbeats */
-	success: boolean;
-	/** Zeitstempel der Antwort */
+export interface PerformanceMetrics {
+	/** Service-Latenz in Millisekunden */
+	serviceLatency: number;
+	/** Prisma-Latenz in Millisekunden */
+	prismaLatency?: number;
+	/** Redis-Latenz in Millisekunden */
+	redisLatency?: number;
+	/** Timestamp der Messung als ISO 8601 String */
 	timestamp: string;
-	/** Optionale Nachricht */
+}
+
+export interface HeartbeatResponse {
+	success: boolean;
+	timestamp: string;
 	message?: string;
 }
 
 export interface ApiResponse<T = unknown> {
-	/** Erfolg der Anfrage */
 	success: boolean;
-	/** Daten der Antwort */
 	data?: T;
-	/** Fehlermeldung falls vorhanden */
 	error?: string;
-	/** Zeitstempel der Antwort */
 	timestamp: string;
 }
 
-export interface HeartbeatConfig {
-	/** Intervall für automatische Heartbeats in Millisekunden */
-	interval: number;
-	/** Automatisches Starten der Heartbeats */
-	autoStart?: boolean;
-	/** Maximale Anzahl aufeinanderfolgender Fehler vor dem Stoppen */
-	maxConsecutiveErrors?: number;
+// Prisma Client Interface
+export interface PrismaClientLike {
+	$queryRaw: (query: TemplateStringsArray, ...values: unknown[]) => Promise<unknown>;
 }
 
+// Redis Client Interface
+export interface RedisClientLike {
+	ping: () => Promise<string>;
+}
+
+// Error Classes
 export class SentinelGuardError extends Error {
 	constructor(
 		message: string,
 		public readonly statusCode?: number,
-		public readonly response?: unknown,
 	) {
 		super(message);
 		this.name = "SentinelGuardError";

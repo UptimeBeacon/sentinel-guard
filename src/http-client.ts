@@ -13,12 +13,14 @@ import {
 export class HttpClient {
 	private readonly baseUrl: string;
 	private readonly apiKey: string;
+	private readonly monitorApiKey: string;
 	private readonly timeout: number;
 	private readonly retryConfig: RetryConfig;
 
 	constructor(config: SentinelGuardConfig) {
 		this.baseUrl = config.baseUrl.replace(/\/$/, ""); // Entferne trailing slash
 		this.apiKey = config.apiKey;
+		this.monitorApiKey = config.monitorApiKey;
 		this.timeout = config.timeout ?? 10000; // 10 Sekunden Standard
 		this.retryConfig = config.retryConfig ?? {
 			maxRetries: 3,
@@ -37,7 +39,8 @@ export class HttpClient {
 		const url = `${this.baseUrl}${endpoint}`;
 		const headers = new Headers({
 			"Content-Type": "application/json",
-			"x-api-key": this.apiKey,
+			"Authorization": `Bearer ${this.apiKey}`,
+			"x-monitor-api-key": this.monitorApiKey,
 			"User-Agent": "SentinelGuard-Client/1.0.0",
 			...((options.headers as Record<string, string>) || {}),
 		});
@@ -103,7 +106,7 @@ export class HttpClient {
 			case 429:
 				throw new RateLimitError(errorMessage);
 			default:
-				throw new SentinelGuardError(errorMessage, response.status, errorText);
+				throw new SentinelGuardError(errorMessage, response.status);
 		}
 	}
 
