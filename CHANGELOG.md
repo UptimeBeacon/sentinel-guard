@@ -1,3 +1,12 @@
+## [1.2.1](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.2.0...v1.2.1) (2025-07-06)
+
+
+### Bug Fixes
+
+* Add authentication tokens to .npmrc for npm and GitHub package registries ([79c3e4d](https://github.com/UptimeBeacon/sentinel-guard/commit/79c3e4d49df87ff87e6bc5eee1167c38b7c8f634))
+* Remove .npmrc and update publishConfig tag to latest ([0f5c824](https://github.com/UptimeBeacon/sentinel-guard/commit/0f5c824aa9327ba1380404ac56d589c6f90c9135))
+* Update permissions in CI workflow to include packages and issues ([f44ad17](https://github.com/UptimeBeacon/sentinel-guard/commit/f44ad1728eb7cca48b51cdd903e9a76c0e3022d0))
+
 # [1.2.0](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.1.0...v1.2.0) (2025-07-06)
 
 
