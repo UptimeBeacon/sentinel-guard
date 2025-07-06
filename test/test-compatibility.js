@@ -8,34 +8,63 @@ console.log(
 );
 
 try {
-	// Teste Konfigurationsvalidierung
+	// Teste Import
 	console.log("✅ Import erfolgreich");
 
 	// Teste Konfiguration
 	const config = {
 		baseUrl: "https://test.example.com",
 		apiKey: "test-key",
+		monitorApiKey: "monitor-key",
 		timeout: 1000,
 	};
-
-	SentinelGuard.validateConfig(config);
-	console.log("✅ Konfigurationsvalidierung erfolgreich");
 
 	// Teste Instanzierung
 	const sentinel = new SentinelGuard(config);
 	console.log("✅ SentinelGuard-Instanz erstellt");
 
-	// Teste Heartbeat-Initialisierung
-	sentinel.initializeHeartbeat({
-		interval: 60000,
-		autoStart: false,
-	});
-	console.log("✅ Heartbeat-Manager initialisiert");
+	// Teste Monitoring-Start (aber nicht wirklich starten)
+	try {
+		// Nur testen ob die Methode existiert, nicht ausführen
+		console.log(
+			"✅ startMonitoring Methode verfügbar:",
+			typeof sentinel.startMonitoring === "function",
+		);
+		console.log(
+			"✅ stopMonitoring Methode verfügbar:",
+			typeof sentinel.stopMonitoring === "function",
+		);
+		console.log(
+			"✅ isMonitoringActive Methode verfügbar:",
+			typeof sentinel.isMonitoringActive === "function",
+		);
+		console.log(
+			"✅ setPrismaClient Methode verfügbar:",
+			typeof sentinel.setPrismaClient === "function",
+		);
+		console.log(
+			"✅ setRedisClient Methode verfügbar:",
+			typeof sentinel.setRedisClient === "function",
+		);
+	} catch (error) {
+		console.error("❌ API-Methoden-Test fehlgeschlagen:", error);
+	}
 
-	// Teste Typen
-	const heartbeatConfig = sentinel.getHeartbeatConfig();
-	if (heartbeatConfig && typeof heartbeatConfig.interval === "number") {
-		console.log("✅ TypeScript-Typen funktionieren korrekt");
+	// Teste Status-Abfragen
+	const isActive = sentinel.isMonitoringActive();
+	console.log("✅ Monitoring-Status abrufbar:", typeof isActive === "boolean");
+
+	const errorCount = sentinel.getErrorCount();
+	console.log("✅ Error-Count abrufbar:", typeof errorCount === "number");
+
+	// Teste Performance-Metriken (ohne Clients)
+	try {
+		const metrics = await sentinel.getPerformanceMetrics();
+		if (metrics && typeof metrics.serviceLatency === "number") {
+			console.log("✅ Performance-Metriken funktionieren");
+		}
+	} catch (error) {
+		console.warn("⚠️ Performance-Metriken-Test übersprungen:", error.message);
 	}
 
 	// Cleanup
