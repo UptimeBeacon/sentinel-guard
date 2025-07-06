@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.2.1...v1.2.2) (2025-07-06)
+
+
+### Bug Fixes
+
+* Remove duplicate @semantic-release/npm config block ([66492b3](https://github.com/UptimeBeacon/sentinel-guard/commit/66492b33d3260631fa59c95648c943243944c8cd))
+
 ## [1.2.1](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.2.0...v1.2.1) (2025-07-06)
 
 
