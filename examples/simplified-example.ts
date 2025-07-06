@@ -1,4 +1,4 @@
-import { SentinelGuard } from '../src/index.js';
+import { SentinelGuard } from "../src/index.js";
 
 /**
  * Vereinfachtes Beispiel - So sollte Ihr Code aussehen
@@ -19,8 +19,8 @@ async function main() {
 		maxConsecutiveErrors: 5,
 	});
 
-	console.log('✅ Monitoring gestartet');
-	console.log('Status:', sentinel.isMonitoringActive());
+	console.log("✅ Monitoring gestartet");
+	console.log("Status:", sentinel.isMonitoringActive());
 
 	// 3. Datenbank-Clients konfigurieren (optional für Latenz-Messung)
 	// sentinel.setPrismaClient(prismaClient);
@@ -29,27 +29,27 @@ async function main() {
 	// 4. Optional: Einzelne Heartbeats senden
 	try {
 		const response = await sentinel.sendHeartbeat({
-			status: 'ONLINE',
+			status: "ONLINE",
 			metadata: {
-				service: 'my-app',
-				version: '1.0.0',
+				service: "my-app",
+				version: "1.0.0",
 			},
 		});
 
 		if (response.success) {
-			console.log('✅ Manueller Heartbeat gesendet');
+			console.log("✅ Manueller Heartbeat gesendet");
 		} else {
-			console.log('❌ Heartbeat Fehler:', response.error);
+			console.log("❌ Heartbeat Fehler:", response.error);
 		}
 	} catch (error) {
-		console.error('❌ Heartbeat Exception:', error);
+		console.error("❌ Heartbeat Exception:", error);
 	}
 
 	// Das wars! Das System sendet jetzt automatisch alle 30 Sekunden Heartbeats
 
 	// 5. Graceful shutdown
-	process.on('SIGINT', () => {
-		console.log('🛑 Stopping monitoring...');
+	process.on("SIGINT", () => {
+		console.log("🛑 Stopping monitoring...");
 		sentinel.stopMonitoring();
 		process.exit(0);
 	});

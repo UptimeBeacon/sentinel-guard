@@ -39,7 +39,7 @@ export class HttpClient {
 		const url = `${this.baseUrl}${endpoint}`;
 		const headers = new Headers({
 			"Content-Type": "application/json",
-			"Authorization": `Bearer ${this.apiKey}`,
+			Authorization: `Bearer ${this.apiKey}`,
 			"x-monitor-api-key": this.monitorApiKey,
 			"User-Agent": "SentinelGuard-Client/1.0.0",
 			...((options.headers as Record<string, string>) || {}),

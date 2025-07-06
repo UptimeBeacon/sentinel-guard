@@ -28,9 +28,7 @@ const mockPrismaClient = {
 const mockRedisClient = {
 	async ping(): Promise<string> {
 		// Simuliere Redis Ping
-		await new Promise((resolve) =>
-			setTimeout(resolve, Math.random() * 20 + 5),
-		);
+		await new Promise((resolve) => setTimeout(resolve, Math.random() * 20 + 5));
 		return "PONG";
 	},
 };

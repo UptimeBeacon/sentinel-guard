@@ -119,7 +119,9 @@ export class SentinelGuard {
 	/**
 	 * Sendet einen einzelnen Heartbeat (für manuelle Checks)
 	 */
-	async sendHeartbeat(data?: Partial<HeartbeatData>): Promise<ApiResponse<HeartbeatResponse>> {
+	async sendHeartbeat(
+		data?: Partial<HeartbeatData>,
+	): Promise<ApiResponse<HeartbeatResponse>> {
 		if (!this.heartbeatManager) {
 			throw new Error("Monitoring not started. Call startMonitoring() first.");
 		}

@@ -2,85 +2,146 @@ import { strict as assert } from "node:assert";
 import { describe, test } from "node:test";
 import { SentinelGuard } from "../dist/index.js";
 
-describe("SentinelGuard Configuration Tests", () => {
+describe("SentinelGuard Tests - Vereinfachte API", () => {
 	test("should create instance with valid config", () => {
 		const sentinel = new SentinelGuard({
 			baseUrl: "https://api.example.com",
 			apiKey: "test-key",
+			monitorApiKey: "monitor-key",
 		});
 
 		assert.ok(sentinel);
 		sentinel.destroy();
 	});
 
-	test("should validate configuration correctly", () => {
-		const validConfig = {
-			baseUrl: "https://api.example.com",
-			apiKey: "test-key",
-			timeout: 5000,
-		};
-
-		assert.doesNotThrow(() => {
-			SentinelGuard.validateConfig(validConfig);
-		});
-	});
-
-	test("should reject invalid configuration", () => {
-		const invalidConfig = {
-			baseUrl: "",
-			apiKey: "test-key",
-		};
-
-		assert.throws(() => {
-			SentinelGuard.validateConfig(invalidConfig);
-		});
-	});
-
-	test("should initialize heartbeat manager", () => {
+	test("should start and stop monitoring", () => {
 		const sentinel = new SentinelGuard({
 			baseUrl: "https://api.example.com",
 			apiKey: "test-key",
+			monitorApiKey: "monitor-key",
 		});
 
-		sentinel.initializeHeartbeat({
+		// Monitoring sollte initial nicht laufen
+		assert.strictEqual(sentinel.isMonitoringActive(), false);
+
+		// Monitoring starten
+		sentinel.startMonitoring({
 			interval: 60000,
-			autoStart: false,
+			maxConsecutiveErrors: 3,
 		});
 
-		assert.strictEqual(sentinel.isHeartbeatActive(), false);
+		assert.strictEqual(sentinel.isMonitoringActive(), true);
 
-		const config = sentinel.getHeartbeatConfig();
-		assert.ok(config);
-		assert.strictEqual(config.interval, 60000);
+		// Monitoring stoppen
+		sentinel.stopMonitoring();
+		assert.strictEqual(sentinel.isMonitoringActive(), false);
 
 		sentinel.destroy();
 	});
 
-	test("should handle default heartbeat data", () => {
+	test("should handle error count", () => {
 		const sentinel = new SentinelGuard({
 			baseUrl: "https://api.example.com",
 			apiKey: "test-key",
+			monitorApiKey: "monitor-key",
 		});
 
-		sentinel.initializeHeartbeat({
+		// Initial sollten keine Fehler vorhanden sein
+		assert.strictEqual(sentinel.getErrorCount(), 0);
+
+		// Monitoring starten
+		sentinel.startMonitoring({
 			interval: 60000,
-			autoStart: false,
+			maxConsecutiveErrors: 3,
 		});
 
-		const defaultData = {
-			type: "CUSTOM" as const,
-			status: "ONLINE" as const,
-			latencyMs: 150,
-			metadata: { test: true },
+		// Error count sollte immer noch 0 sein
+		assert.strictEqual(sentinel.getErrorCount(), 0);
+
+		// Fehleranzahl zurücksetzen sollte funktionieren
+		sentinel.resetErrorCount();
+		assert.strictEqual(sentinel.getErrorCount(), 0);
+
+		sentinel.destroy();
+	});
+
+	test("should handle database clients", () => {
+		const sentinel = new SentinelGuard({
+			baseUrl: "https://api.example.com",
+			apiKey: "test-key",
+			monitorApiKey: "monitor-key",
+		});
+
+		// Mock Prisma Client
+		const mockPrismaClient = {
+			async $queryRaw(
+				_query: TemplateStringsArray,
+				..._values: unknown[]
+			): Promise<unknown> {
+				return [{ test: 1 }];
+			},
 		};
 
-		sentinel.setDefaultHeartbeatData(defaultData);
+		// Mock Redis Client
+		const mockRedisClient = {
+			async ping(): Promise<string> {
+				return "PONG";
+			},
+		};
 
-		const retrieved = sentinel.getDefaultHeartbeatData();
-		assert.ok(retrieved);
-		assert.strictEqual(retrieved.type, "CUSTOM");
-		assert.strictEqual(retrieved.status, "ONLINE");
-		assert.strictEqual(retrieved.latencyMs, 150);
+		// Monitoring starten
+		sentinel.startMonitoring({
+			interval: 60000,
+			maxConsecutiveErrors: 3,
+		});
+
+		// Clients sollten ohne Fehler gesetzt werden können
+		assert.doesNotThrow(() => {
+			sentinel.setPrismaClient(mockPrismaClient);
+			sentinel.setRedisClient(mockRedisClient);
+		});
+
+		sentinel.destroy();
+	});
+
+	test("should require monitoring to be started before setting clients", () => {
+		const sentinel = new SentinelGuard({
+			baseUrl: "https://api.example.com",
+			apiKey: "test-key",
+			monitorApiKey: "monitor-key",
+		});
+
+		const mockPrismaClient = {
+			async $queryRaw(
+				_query: TemplateStringsArray,
+				..._values: unknown[]
+			): Promise<unknown> {
+				return [{ test: 1 }];
+			},
+		};
+
+		// Ohne gestartetes Monitoring sollte ein Fehler geworfen werden
+		assert.throws(() => {
+			sentinel.setPrismaClient(mockPrismaClient);
+		}, /Monitoring not started/);
+
+		sentinel.destroy();
+	});
+
+	test("should measure performance metrics", async () => {
+		const sentinel = new SentinelGuard({
+			baseUrl: "https://api.example.com",
+			apiKey: "test-key",
+			monitorApiKey: "monitor-key",
+		});
+
+		const metrics = await sentinel.getPerformanceMetrics();
+
+		assert.ok(metrics);
+		assert.ok(typeof metrics.serviceLatency === "number");
+		assert.ok(metrics.serviceLatency >= 0);
+		assert.ok(metrics.timestamp);
+		assert.ok(new Date(metrics.timestamp));
 
 		sentinel.destroy();
 	});
