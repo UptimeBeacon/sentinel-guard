@@ -47,3 +47,5 @@ coverage/
 # Development scripts
 index.ts
 bun.lock
+
+docs/
