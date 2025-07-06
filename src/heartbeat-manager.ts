@@ -43,7 +43,9 @@ export class HeartbeatManager {
 		this.isRunning = true;
 		this.consecutiveErrors = 0;
 
-		console.log(`🚀 Heartbeats gestartet (Intervall: ${this.config.interval}ms)`);
+		console.log(
+			`🚀 Heartbeats gestartet (Intervall: ${this.config.interval}ms)`,
+		);
 
 		// Ersten Heartbeat sofort senden
 		this.sendHeartbeat();
@@ -111,7 +113,9 @@ export class HeartbeatManager {
 	 * Sendet einen Heartbeat mit Performance-Monitoring
 	 * DIES IST DIE EINZIGE HEARTBEAT-FUNKTION
 	 */
-	async sendHeartbeat(customData?: Partial<HeartbeatData>): Promise<ApiResponse<HeartbeatResponse>> {
+	async sendHeartbeat(
+		customData?: Partial<HeartbeatData>,
+	): Promise<ApiResponse<HeartbeatResponse>> {
 		// Verhindere doppelte Heartbeats
 		if (this.isSending) {
 			return {
@@ -126,7 +130,7 @@ export class HeartbeatManager {
 		try {
 			// Performance messen
 			const startTime = performance.now();
-			await new Promise(resolve => setTimeout(resolve, 1)); // Simulierte Arbeit
+			await new Promise((resolve) => setTimeout(resolve, 1)); // Simulierte Arbeit
 			const serviceLatency = performance.now() - startTime;
 
 			const performanceMetrics: PerformanceMetrics = {
@@ -164,8 +168,12 @@ export class HeartbeatManager {
 				performance: {
 					...performanceMetrics,
 					serviceLatency: Math.round(performanceMetrics.serviceLatency),
-					prismaLatency: performanceMetrics.prismaLatency ? Math.round(performanceMetrics.prismaLatency) : undefined,
-					redisLatency: performanceMetrics.redisLatency ? Math.round(performanceMetrics.redisLatency) : undefined,
+					prismaLatency: performanceMetrics.prismaLatency
+						? Math.round(performanceMetrics.prismaLatency)
+						: undefined,
+					redisLatency: performanceMetrics.redisLatency
+						? Math.round(performanceMetrics.redisLatency)
+						: undefined,
 				},
 				metadata: {
 					timestamp: new Date().toISOString(),
@@ -175,10 +183,13 @@ export class HeartbeatManager {
 			};
 
 			// HTTP Request senden
-			const response = await this.httpClient.request<HeartbeatResponse>("/heartbeat", {
-				method: "POST",
-				body: JSON.stringify(heartbeatData),
-			});
+			const response = await this.httpClient.request<HeartbeatResponse>(
+				"/heartbeat",
+				{
+					method: "POST",
+					body: JSON.stringify(heartbeatData),
+				},
+			);
 
 			if (response.success) {
 				this.consecutiveErrors = 0;
@@ -188,7 +199,6 @@ export class HeartbeatManager {
 			}
 
 			return response;
-
 		} catch (error) {
 			this.handleError(`Heartbeat failed: ${error}`);
 			return {
@@ -206,11 +216,15 @@ export class HeartbeatManager {
 	 */
 	private handleError(message: string): void {
 		this.consecutiveErrors++;
-		console.warn(`⚠️ Heartbeat Fehler (${this.consecutiveErrors}/${this.config.maxConsecutiveErrors}): ${message}`);
+		console.warn(
+			`⚠️ Heartbeat Fehler (${this.consecutiveErrors}/${this.config.maxConsecutiveErrors}): ${message}`,
+		);
 
 		// Wenn zu viele Fehler, stoppe automatische Heartbeats
 		if (this.consecutiveErrors >= (this.config.maxConsecutiveErrors || 5)) {
-			console.error("🚨 Zu viele aufeinanderfolgende Fehler - Stoppe automatische Heartbeats");
+			console.error(
+				"🚨 Zu viele aufeinanderfolgende Fehler - Stoppe automatische Heartbeats",
+			);
 			this.stop();
 		}
 	}

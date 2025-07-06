@@ -70,7 +70,10 @@ export interface ApiResponse<T = unknown> {
 
 // Prisma Client Interface
 export interface PrismaClientLike {
-	$queryRaw: (query: TemplateStringsArray, ...values: unknown[]) => Promise<unknown>;
+	$queryRaw: (
+		query: TemplateStringsArray,
+		...values: unknown[]
+	) => Promise<unknown>;
 }
 
 // Redis Client Interface

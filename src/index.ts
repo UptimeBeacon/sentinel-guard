@@ -22,4 +22,9 @@ export type {
 } from "./types.js";
 
 // Error Classes
-export { NetworkError, SentinelGuardError } from "./types.js";
+export {
+	AuthenticationError,
+	NetworkError,
+	RateLimitError,
+	SentinelGuardError,
+} from "./types.js";
