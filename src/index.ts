@@ -1,15 +1,6 @@
-/**
- * SentinelGuard - Vereinfachte Monitoring Library
- *
- * Hauptfunktionen:
- * - Automatische Heartbeats
- * - Performance-Monitoring (Service, Prisma, Redis)
- * - Robuste Fehlerbehandlung
- */
-
+export { HeartbeatManager } from "./heartbeat-manager.js";
+export { HttpClient } from "./http-client.js";
 export { SentinelGuard } from "./sentinel-guard.js";
-
-// Types exportieren für TypeScript-Nutzer
 export type {
 	ApiResponse,
 	HeartbeatConfig,
@@ -21,10 +12,11 @@ export type {
 	SentinelGuardConfig,
 } from "./types.js";
 
-// Error Classes
 export {
-	AuthenticationError,
-	NetworkError,
-	RateLimitError,
-	SentinelGuardError,
+	ClientInitializationError,
+	ConfigurationError,
+	HeartbeatSendError,
+	PerformanceMonitoringError,
+	PrismaConnectionError,
+	RedisConnectionError,
 } from "./types.js";
