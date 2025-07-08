@@ -2,7 +2,7 @@ import { strict as assert } from "node:assert";
 import { describe, test } from "node:test";
 import { SentinelGuard } from "../dist/index.js";
 
-describe("SentinelGuard Tests - Vereinfachte API", () => {
+describe("SentinelGuard Tests", () => {
 	test("should create instance with valid config", () => {
 		const sentinel = new SentinelGuard({
 			baseUrl: "https://api.example.com",
@@ -27,7 +27,6 @@ describe("SentinelGuard Tests - Vereinfachte API", () => {
 		// Monitoring starten
 		sentinel.startMonitoring({
 			interval: 60000,
-			maxConsecutiveErrors: 3,
 		});
 
 		assert.strictEqual(sentinel.isMonitoringActive(), true);
@@ -35,32 +34,6 @@ describe("SentinelGuard Tests - Vereinfachte API", () => {
 		// Monitoring stoppen
 		sentinel.stopMonitoring();
 		assert.strictEqual(sentinel.isMonitoringActive(), false);
-
-		sentinel.destroy();
-	});
-
-	test("should handle error count", () => {
-		const sentinel = new SentinelGuard({
-			baseUrl: "https://api.example.com",
-			apiKey: "test-key",
-			monitorApiKey: "monitor-key",
-		});
-
-		// Initial sollten keine Fehler vorhanden sein
-		assert.strictEqual(sentinel.getErrorCount(), 0);
-
-		// Monitoring starten
-		sentinel.startMonitoring({
-			interval: 60000,
-			maxConsecutiveErrors: 3,
-		});
-
-		// Error count sollte immer noch 0 sein
-		assert.strictEqual(sentinel.getErrorCount(), 0);
-
-		// Fehleranzahl zurücksetzen sollte funktionieren
-		sentinel.resetErrorCount();
-		assert.strictEqual(sentinel.getErrorCount(), 0);
 
 		sentinel.destroy();
 	});
@@ -92,7 +65,6 @@ describe("SentinelGuard Tests - Vereinfachte API", () => {
 		// Monitoring starten
 		sentinel.startMonitoring({
 			interval: 60000,
-			maxConsecutiveErrors: 3,
 		});
 
 		// Clients sollten ohne Fehler gesetzt werden können
