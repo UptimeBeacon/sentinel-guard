@@ -1,3 +1,12 @@
+## [1.2.3](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.2.2...v1.2.3) (2025-07-08)
+
+
+### Bug Fixes
+
+* Add .js extension to module imports ([0864d79](https://github.com/UptimeBeacon/sentinel-guard/commit/0864d790242da0fd533dac97e76b6d7b04184329))
+* Clean up test files and simplify SentinelGuard API ([014c56c](https://github.com/UptimeBeacon/sentinel-guard/commit/014c56c415b94c9f028234ee708c4bb818551f6b))
+* Refactor HeartbeatManager for improved error handling ([64b7594](https://github.com/UptimeBeacon/sentinel-guard/commit/64b75941b4bd65353b6d564f5098c5ff545c9acf))
+
 ## [1.2.2](https://github.com/UptimeBeacon/sentinel-guard/compare/v1.2.1...v1.2.2) (2025-07-06)
 
 
