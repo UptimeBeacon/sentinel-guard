@@ -1,5 +1,5 @@
-import { HeartbeatManager } from "./heartbeat-manager";
-import { HttpClient } from "./http-client";
+import { HeartbeatManager } from "./heartbeat-manager.js";
+import { HttpClient } from "./http-client.js";
 import {
 	type ApiResponse,
 	ClientInitializationError,
@@ -15,7 +15,7 @@ import {
 	type RedisClientLike,
 	RedisConnectionError,
 	type SentinelGuardConfig,
-} from "./types";
+} from "./types.js";
 
 /**
  * Simplified SentinelGuard Library

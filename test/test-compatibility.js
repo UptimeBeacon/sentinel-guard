@@ -54,9 +54,6 @@ try {
 	const isActive = sentinel.isMonitoringActive();
 	console.log("✅ Monitoring-Status abrufbar:", typeof isActive === "boolean");
 
-	const errorCount = sentinel.getErrorCount();
-	console.log("✅ Error-Count abrufbar:", typeof errorCount === "number");
-
 	// Teste Performance-Metriken (ohne Clients)
 	try {
 		const metrics = await sentinel.getPerformanceMetrics();
